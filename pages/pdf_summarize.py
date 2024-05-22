@@ -95,8 +95,21 @@ st.title(":orange[Pdf Summarizing using Gemini 1.5 Pro]")
 load_read_pdf()
 st.write("----")
 
-btn = st.button("Summary")
+options = st.radio(
+    "Choose a summary type:",
+    ["Summary of Certain Pages", "Short Summary of the Entire Document", "Detailed Summary of the Entire Document"]
+)
+
+btn = st.button("Get Summary")
 if btn:
-    result =stuff_model(pdf)
-    st.subheader("Summary : ")
-    st.write(result)
+    if options=="Summary of Certain Pages":
+       st.subheader("Summary : ")
+       st.text(stuff_model(pdf))
+    elif options=='Short Summary of the Entire Document':
+        result = map_reduce_model(pdf)
+        st.subheader("Summary : ")
+        st.text(result)
+    elif options== "Detailed Summary of the Entire Document":
+        result= refine_model(pdf)
+        st.subheader("Summary : ")
+        st.text(result)
