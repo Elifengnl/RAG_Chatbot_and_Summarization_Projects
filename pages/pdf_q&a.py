@@ -8,6 +8,7 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_google_genai import  GoogleGenerativeAI, ChatGoogleGenerativeAI, HarmBlockThreshold, HarmCategory
 from langchain.chains.question_answering import load_qa_chain
+from langchain.embeddings.huggingface import HuggingFaceEmbeddings
 import textwrap
 
 
@@ -79,7 +80,8 @@ def init_model(pdf):
     text_splitter.split_documents(pdf)
 
     # word embeddings
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type='retrieval_document', google_api_key=google_api_key)
+    #embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", task_type='retrieval_document', google_api_key=google_api_key)
+    embeddings= HuggingFaceEmbeddings(model_name='sentence-transformers/all-mpnet-base-v2')
 
     # vectorstores
     index = FAISS.from_documents(documents=pdf,
